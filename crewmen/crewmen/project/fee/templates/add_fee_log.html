@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}add_fee_log{% endblock %}
+
+{% block content %}
+<form action=" {{ url_for('fee.add_fee_log') }} " method="post">
+    {{ csrf_token }}
+    {% for form in forms %}
+    <p>{{ form.label }} {{ form(size=20) }}</p>
+        {% if form.errors %}
+            {% for form in form.errors %}
+                {{ error }}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <input type="submit" value="submit">
+</form>
+{% endblock %}
