@@ -27,20 +27,65 @@ insert into training_item(item_ID, item_name, is_strength, is_test) values
 (1, '卧拉', 'y', 'n'),
 (2, '平板支撑','y', 'n'),
 (3, '仰卧两头起', 'y', 'n'),
-(4, '深蹲', 'y', 'n');
+(4, '深蹲', 'y', 'n'),
+(5, '卧推', 'y', 'n'),
+(6, '跑步', 'n', 'n'),
+(7, '测功仪', 'n', 'n'),
+(8, '游泳', 'n', 'n');
 
-insert into item_attribute(attr_ID, attr_name, comp) values
-('1', '重量', 'larger'),
-('2', '距离', 'larger'),
-('3', '时间', 'smaller'),
-('4', '次数', 'larger'),
-('5', '组数', 'larger'),
-('6', '桨频', 'larger'),
-('7', '桨频', 'smaller');
+insert into item_attribute(attr_ID, attr_name) values
+('1', '重量'),
+('2', '距离'),
+('3', '时间'),
+('4', '次数'),
+('5', '组数'),
+('6', '桨频'),
+('7', '风阻');
 
-insert into training_plan(train_at, training_last) values
-('2017-12-29 12:00:00', 30),
-('2017-12-30 00:00:00', 30);
+insert into attr_in_item(item_ID, attr_ID) values
+(1, 1), (1, 3), (1, 4), (1, 5),
+(2, 3), (2, 5),
+(3, 4), (3, 5),
+(4, 1), (4, 3), (4, 4), (4, 5),
+(5, 1), (5, 3), (5, 4), (5, 5),
+(6, 2), (6, 3), (6, 5),
+(7, 2), (7, 3), (7, 5), (7, 6), (7, 7),
+(8, 2), (8, 3), (8, 5);
+
+insert into training_plan(plan_ID, train_at, training_last, ID) values
+(1, '2017-12-29 12:00:00', 30, '1996'),
+(2, '2017-12-30 00:00:00', 30, '1996'),
+(3, '2018-1-1 12:00:00', 30, '1996'),
+(4, '2018-1-2 12:00:00', 30, '1996'),
+(5, '2018-1-3 12:00:00', 30, '1996'),
+(6, '2018-1-4 12:00:00', 30, '1996');
+
+insert into requirement_in_plan(plan_ID, item_ID, attr_ID, comp, requirement) values
+(1, 1, 1, 'larger', 30), (1, 1, 4, 'larger', 30), (1, 1, 5, 'larger', 5),
+(1, 2, 3, 'larger', 120), (1, 2, 5, 'larger', 2),
+(1, 3, 4, 'larger', 30), (1, 3, 5, 'larger', 2),
+
+(2, 1, 1, 'larger', 30), (2, 1, 4, 'larger', 30), (2, 1, 5, 'larger', 5),
+(2, 2, 3, 'larger', 120), (2, 2, 5, 'larger', 2),
+(2, 3, 4, 'larger', 30), (2, 3, 5, 'larger', 2),
+
+(3, 1, 1, 'larger', 30), (3, 1, 4, 'larger', 30), (3, 1, 5, 'larger', 5),
+(3, 2, 3, 'larger', 120), (3, 2, 5, 'larger', 2),
+(3, 3, 4, 'larger', 30), (3, 3, 5, 'larger', 2),
+
+(4, 1, 1, 'larger', 30), (4, 1, 4, 'larger', 30), (4, 1, 5, 'larger', 5),
+(4, 2, 3, 'larger', 120), (4, 2, 5, 'larger', 2),
+(4, 3, 4, 'larger', 30), (4, 3, 5, 'larger', 2),
+
+(5, 1, 1, 'larger', 30), (5, 1, 4, 'larger', 30), (5, 1, 5, 'larger', 5),
+(5, 2, 3, 'larger', 120), (5, 2, 5, 'larger', 2),
+(5, 3, 4, 'larger', 30), (5, 3, 5, 'larger', 2),
+
+(6, 1, 1, 'larger', 30), (6, 1, 4, 'larger', 30), (6, 1, 5, 'larger', 5),
+(6, 2, 3, 'larger', 120), (6, 2, 5, 'larger', 2),
+(6, 3, 4, 'larger', 30), (6, 3, 5, 'larger', 2);
+
+
 
 insert into item_in_plan(plan_ID, item_ID) values
 ('1', '1'),
