@@ -23,11 +23,20 @@ insert into users(username, password, ID, email) values
 ('normal', sha2('normal', 512), '1997', '11@happygirlzt.com');
 
 
-insert into training_item(item_name, is_strength, is_test) values
-('卧拉', 'y', 'n'),
-('平板支撑','y', 'n'),
-('仰卧两头起', 'y', 'n'),
-('深蹲', 'y', 'n');
+insert into training_item(item_ID, item_name, is_strength, is_test) values
+(1, '卧拉', 'y', 'n'),
+(2, '平板支撑','y', 'n'),
+(3, '仰卧两头起', 'y', 'n'),
+(4, '深蹲', 'y', 'n');
+
+insert into item_attribute(attr_ID, attr_name, comp) values
+('1', '重量', 'larger'),
+('2', '距离', 'larger'),
+('3', '时间', 'smaller'),
+('4', '次数', 'larger'),
+('5', '组数', 'larger'),
+('6', '桨频', 'larger'),
+('7', '桨频', 'smaller');
 
 insert into training_plan(train_at, training_last) values
 ('2017-12-29 12:00:00', 30),
