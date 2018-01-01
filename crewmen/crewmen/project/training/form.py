@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import BooleanField, StringField, PasswordField, validators, RadioField, SelectField
+from wtforms import BooleanField, StringField, PasswordField, validators, RadioField, SelectField, DecimalField, DateTimeField
+from wtforms_components import DateRange
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired
+from models import *
 
 class UpdateItemForm(FlaskForm):
     item_name = StringField(
@@ -17,4 +19,32 @@ class UpdateItemForm(FlaskForm):
         choices=[('y', 'Yes'), ('n', 'No')],
         validators=[InputRequired()]
     )
+
+class AddPlanForm(FlaskForm):
+    train_at = DateTimeField(
+        'Date',
+        format='%Y-%m-%d %H:%M:%S',
+        validators=[DateRange(min=None, max=None)]
+    )
+
+    training_last = DateTimeField(
+        'Lasting',
+        format='%H:%M',
+        validators=[DateRange(min=None, max=None)]
+    )
+
+    training_level = SelectField(
+        'training level',
+        choices=[(c,c) for c in ['newbie', 'medium', 'old bird', 'all']],
+        validators=[InputRequired()]
+    )
+
+    item_name = SelectField(
+        'Item Name',
+        choices=[(c.item_name, c.item_name) for c in TrainingItem.query.all()]
+    )
+
+
+
+    #for attr in TrainingItem.query().attr:
 

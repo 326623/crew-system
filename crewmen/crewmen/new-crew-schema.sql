@@ -37,7 +37,7 @@ create table if not exists member
        ID int unsigned,
        -- big chunk for information
        job enum('couch', 'crew leader', 'crew member') default 'crew member',
-       training_level enum('newbie', 'medium', 'old bird', 'all') default 'newbie',
+       training_level enum('newbie', 'medium', 'old bird') default 'newbie',
        primary key(ID)
        );-- character set utf8 collate utf8_general_ci;
 

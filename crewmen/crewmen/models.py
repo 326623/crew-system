@@ -20,35 +20,46 @@ class Member(db.Model):
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
 
-class ItemInPlan(db.Model):
-    __tablename__ = 'item_in_plan'
+class ItemAttribute(db.Model):
+    __tablename__ = 'item_attribute'
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
 
+class AttrInItem(db.Model):
+    __tablename__ = 'attr_in_item'
+    __table_args__ = {'autoload':True,
+                      'autoload_with': db.engine}
+
+
 class TrainingPlan(db.Model):
-    #__table__ = Table('training_plan', meta, autoload=True)
     __tablename__ = 'training_plan'
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
 
     # cannot pass in the class
-    items = relationship("TrainingItem",
-                         secondary=ItemInPlan.__table__)
+    requirement = relationship("RequirementInPlan",
+                               backref='training_plan')
 
-class WhoTrain(db.Model):
-    __tablename__ = 'who_train'
-    __table_args__ = {'autoload':True,
-                      'autoload_with': db.engine}
+    maker = relationship("Member", backref='training_plan')
 
 class TrainingItem(db.Model):
     __tablename__ = 'training_item'
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
 
-class PlanMaker(db.Model):
-    __tablename__ = 'plan_maker'
+    attr = relationship("ItemAttribute",
+                        secondary=AttrInItem.__table__)
+
+class RequirementInPlan(db.Model):
+    __tablename__ = 'requirement_in_plan'
     __table_args__ = {'autoload':True,
                       'autoload_with': db.engine}
+
+    item = relationship("TrainingItem",
+                        secondary=AttrInItem.__table__)
+
+    attr = relationship("ItemAttribute",
+                        secondary=AttrInItem.__table__)
 
 class PaidBy(db.Model):
     __tablename__ = 'paid_by'

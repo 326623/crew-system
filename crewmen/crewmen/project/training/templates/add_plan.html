@@ -1,8 +1,42 @@
 {% extends "base.html" %}
 {% block title %}Add plan{% endblock %}
 {% block content %}
-<!-- {# {{form.csrf_token}}  #} -->
-Not implemented
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<select name="garden" multiple="multiple">
+    <option>Flowers</option>
+    <option>Shrubs</option>
+    <option>Trees</option>
+    <option>Bushes</option>
+    <option>Grass</option>
+    <option>Dirt</option>
+</select>
+<div></div>
+
+<script>
+ $( "select" )
+     .change(function() {
+         var str = "";
+         $( "select option:selected" ).each(function() {
+             str += $( this ).text() + " ";
+         });
+         $( "div" ).text( str );
+     })
+     .trigger( "change" );
+</script>
+<form action="{{ url_for('training.add_item') }}" method="post">
+    {{ csrf_token }}
+
+    {% for form in forms %}
+        <p>{{ form.label }} {{ form(size=1) }}</p>
+            {% if form.errors %}
+                {% for form in form.errors %}
+            {{ error }}
+        {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <input type="submit" value="Add">
+</form>
+
 
 
 {% endblock %}

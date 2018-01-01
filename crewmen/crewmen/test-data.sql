@@ -5,10 +5,11 @@ insert into member(name, ID, training_level) values
 ('X德昊', '2', 'old bird'),
 ('S炜焜', '3', 'old bird'),
 ('happygirlzt', '520', 'old bird'),
-('admin', '1996', 'newbie'),
 ('normal','1997','newbie');
 
-insert into member(name, ID, training_level, job) values ('胡泽Q', '4', 'old bird', 'crew leader');
+insert into member(name, ID, training_level, job) values
+('胡泽Q', '4', 'old bird', 'crew leader'),
+('admin', '1996', 'old bird', 'couch');
 
 insert into users(username, password, ID, email) values
 ('yuH', sha2('hello-world', 512), '0', '123@happygirlzt.com'),
@@ -85,10 +86,3 @@ insert into requirement_in_plan(plan_ID, item_ID, attr_ID, comp, requirement) va
 (6, 2, 3, 'larger', 120), (6, 2, 5, 'larger', 2),
 (6, 3, 4, 'larger', 30), (6, 3, 5, 'larger', 2);
 
-
-
-insert into item_in_plan(plan_ID, item_ID) values
-('1', '1'),
-('1', '2'),
-('1', '3'),
-('2', '1');

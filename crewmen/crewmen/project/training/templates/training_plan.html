@@ -2,18 +2,13 @@
 {% block title %}Training for today{% endblock %}
 {% block content %}
 <h3>Today's Plan</h3>
-{% for plan in strength_plan %}
-<strong>plan_ID:</strong>{{ plan.plan_ID }}<br>
-<strong>training_level:</strong>{{ plan.training_level }}<br>
-<strong>training_time:</strong>{{ plan.training_last }}<br>
-    {% for item in plan.items %}
-        <strong>item_ID</strong>{{ plan.items.item_ID }}<br>
-        <strong>item time</strong>{{ plan.items.item_name }}<br>
-        {% if item.is_strength == 'y' %}
-            <strong>This is the strength section</strong>
-        {% else %}
-            <strong>This is the aerobic section</strong>
-        {% endif %}
-    {% endfor%}
+
+{% for plan in plans %}
+<p><strong>{{ plan.train_at }}</strong> <strong>Lasting: </strong>{{ plan.training_last }} <strong>Posted by: </strong> {{ plan.maker.name }}</p>
+    {% for x in plan.requirement %}
+    <p>{{ x.item[0].item_name }} {{ x.attr[0].attr_name }} {{ x.comp, x.requirement  }}</p>
+    {% endfor %}
 {% endfor %}
+<!-- 
+   -->
 {% endblock %}
