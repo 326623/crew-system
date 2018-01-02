@@ -1,42 +1,84 @@
 {% extends "base.html" %}
 {% block title %}Add plan{% endblock %}
 {% block content %}
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-<select name="garden" multiple="multiple">
-    <option>Flowers</option>
-    <option>Shrubs</option>
-    <option>Trees</option>
-    <option>Bushes</option>
-    <option>Grass</option>
-    <option>Dirt</option>
-</select>
-<div></div>
-
-<script>
- $( "select" )
-     .change(function() {
-         var str = "";
-         $( "select option:selected" ).each(function() {
-             str += $( this ).text() + " ";
-         });
-         $( "div" ).text( str );
-     })
-     .trigger( "change" );
-</script>
-<form action="{{ url_for('training.add_item') }}" method="post">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<form action="{{ url_for('training.add_plan') }}" method="post">
     {{ csrf_token }}
 
     {% for form in forms %}
-        <p>{{ form.label }} {{ form(size=1) }}</p>
-            {% if form.errors %}
-                {% for form in form.errors %}
-            {{ error }}
-        {% endfor %}
-        {% endif %}
+    <p>{{ form.label }} {{ form(size=1) }}</p>
+    {% if form.errors %}
+    {% for form in form.errors %}
+    {{ error }}
+    {% endfor %}
+    {% endif %}
     {% endfor %}
     <input type="submit" value="Add">
 </form>
 
+<button>ss</button>
+
+<script>
+ /* $( "select" )
+  *     .change(function() {
+  *         var str = "";
+  *         $( "select option:selected" ).each(function() {
+  *             str += $( this ).text() + " ";
+  *         });
+  *         $( "div" ).text( str );
+  *     })
+  *     .trigger( "change" );*/
+ var dropdown = {
+     item: $('#item_name'),
+     attr: $('#attr_name'),
+     temp: $('#temp_name')
+ };
+
+ updateattr();
+
+ function updateattr() {
+     var send = {
+         item_name: dropdown.item.val()
+     };
+
+     console.log(send.item_name);
+
+     //send = {item: "卧拉"}; // default
+     dropdown.attr.attr('disabled', 'disabled');
+     dropdown.attr.empty();
+     dropdown.temp.attr('disabled', 'disabled');
+     dropdown.temp.empty();
+
+
+     $.getJSON("_get_attr", send, function(result) {
+         $.each(result, function(i, field) {
+             dropdown.attr.append(
+                 $('<option>', {
+                     value: field[0],
+                     text: field[1]
+                 })
+
+             );
+             dropdown.temp.append(
+                 $('<input>', {
+                     name: 'temp_name-' + i,
+                     value: field[0],
+                     text: field[1]
+                 })
+             );
+
+             console.log(i + " " + field);
+         });
+         dropdown.attr.removeAttr('disabled');
+     })
+ };
+
+ dropdown.item.on('change', function() {
+     updateattr();
+ });
+
+
+</script>
 
 
 {% endblock %}

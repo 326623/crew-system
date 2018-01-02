@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, session, g, request, flash, Blueprint, abort
+from flask import Flask, redirect, url_for, render_template, session, g, request, flash, Blueprint, abort, jsonify
 from crewmen import app, login_required, wraps
 import datetime
 from models import *
@@ -41,24 +41,48 @@ def show_item():
     items = TrainingItem.query.all()
     return render_template('show_item.html', items=items)
 
-@training_blueprint.route('_get_attr/')
+@training_blueprint.route('/_get_attr/')
 @login_required
 @power_required
 def _get_attr():
-    item_name = request.args.get('')
+    item_name = request.args.get('item_name', '01', type=str)
+
+    #print(item_name)
+    attr = [(row.attr_ID, row.attr_name) for row in TrainingItem.query.filter(TrainingItem.item_name==item_name).first().attr]
+    print(attr)
+
+    return jsonify(attr)
 
 @training_blueprint.route('/add_plan', methods=['GET', 'POST'])
 @login_required
 @power_required
 def add_plan():
 
+    print("Hey There!!!\n")
     form = AddPlanForm()
 
-    forms = [form.training_level, form.item_name]
+    
+
+    forms = [form.training_level, form.item_name, form.attr_name, form.comp, form.temp_name]
     csrf_token = form.csrf_token
 
+    print(form.validate())
+    print(form.temp_name)
     if form.validate_on_submit():
-        redirect(url_for('home'))
+        new_plan = TrainingPlan()
+        plan_req = RequirementInPlan();
+        plan_req.plan_ID = 1# need to query database for this
+        plan_req.item_ID = TrainingItem.query.filter_by(item_name=form.item_name.data).first().item_ID
+
+        # a for loop
+        for x in form.temp_name.data:
+            print(x)
+            #plan_req.attr_ID = 
+
+        print(request.form)
+        print(form.temp_name.data)
+
+        redirect(url_for('training.add_plan'))
     error = None
 
     return render_template('add_plan.html', csrf_token=csrf_token, forms=forms)
