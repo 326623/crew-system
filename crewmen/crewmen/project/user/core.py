@@ -55,6 +55,7 @@ def login():
             hashcode = hashing.hash_value(password)
 
             if hashing.check_value(db_hash, password):
+                session['login_ID'] = login_user.ID
                 session['logged_in'] = True
                 session['login_job'] = login_user.member.job
                 session['login_username'] = login_user.username
@@ -133,6 +134,7 @@ def password_update():
 @user_blueprint.route('/logout')
 @login_required
 def logout():
+    session.pop('login_ID', None)
     session.pop('login_job', None)
     session.pop('login_username', None)
     session.pop('logged_in', None)

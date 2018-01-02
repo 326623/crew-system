@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import BooleanField, StringField, PasswordField, validators, RadioField, SelectField, DecimalField, DateTimeField, FieldList
-from wtforms_components import DateRange
+from wtforms_components import DateRange, TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired
 from decimal import Decimal
 from models import *
@@ -20,19 +20,24 @@ class UpdateItemForm(FlaskForm):
         choices=[('y', 'Yes'), ('n', 'No')],
         validators=[InputRequired()]
     )
+    
 
 class AddPlanForm(FlaskForm):
-    # train_at = DateTimeField(
-    #     'Date',
-    #     format='%Y-%m-%d %H:%M:%S',
-    #     validators=[DateRange(min=None, max=None)]
-    # )
 
-    # training_last = DateTimeField(
-    #     'Lasting',
-    #     format='%H:%M',
-    #     validators=[DateRange(min=None, max=None)]
-    # )
+    plan_ID = DecimalField(default=Decimal('-1'),
+                           label='plan_ID')
+
+    train_at = DateTimeField(
+        'Date(%Y-%m-%d %H:%M:%S)',
+        format='%Y-%m-%d %H:%M:%S',
+        validators=[DateRange(min=None, max=None)]
+    )
+
+    training_last = TimeField(
+        'Lasting(%H:%M)',
+        format='%H:%M',
+        validators=[DateRange(min=None, max=None)]
+    )
 
     training_level = SelectField(
         'training level',
@@ -47,7 +52,7 @@ class AddPlanForm(FlaskForm):
     )
 
     comp = FieldList(
-        SelectField(choices=[('larger', 'larger'), ('smaller', 'smaller')]),
+        SelectField(default=('Not picked', 'Not picked'), choices=[('larger', 'larger'), ('smaller', 'smaller')]),
         min_entries=ItemAttribute.query.count()
     )
 

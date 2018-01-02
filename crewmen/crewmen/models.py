@@ -1,6 +1,7 @@
 from crewmen import db
 from sqlalchemy.orm import relationship
-from sqlalchemy import Table, MetaData
+from sqlalchemy import Table, MetaData, func
+
 
 meta = MetaData(bind=db.engine)
 

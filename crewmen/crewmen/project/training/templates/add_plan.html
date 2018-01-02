@@ -5,6 +5,11 @@
 <form action="{{ url_for('training.add_plan') }}" method="post">
     {{ csrf_token }}
 
+    <!-- no error handling at all   -->
+
+    <p>{{ train_at.label }} {{ train_at(size=10) }}</p>
+    <p> {{ training_last.label }} {{ training_last(size=10) }} </p>
+
     {% for form in forms %}
     <p>{{ form.label }} {{ form(size=1) }}</p>
     {% if form.errors %}
@@ -49,13 +54,17 @@
      dropdown.comp.attr('disabled', 'disabled');
      dropdown.comp.empty();
 
+     var sel_row = "<select></select>"
+
      $.getJSON("_get_attr", send, function(result) {
          $.each(result, function(i, field) {
+             console.log("<select \"id=comp-" + field[0] + "\" name=\"comp-" + field[0] + "\"><option value=\"larger\">larger<\/option><option value=\"smaller\">smaller<\/option>" + "</select>");
              dropdown.comp.append(
-                 $('<option>', {
-                     name: "comp-" + field[0],
-value: ""
-                 })
+                 "<select \"id=comp-" + field[0] + "\" name=\"comp-" + field[0] + "\"><option value=\"larger\">larger<\/option><option value=\"smaller\">smaller<\/option>" + "</select>"
+                 /* $('<option>', {
+                  *     name: "comp-" + field[0],
+                    value: ""
+                  * })*/
 
              );
              dropdown.attr.append(

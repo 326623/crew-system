@@ -49,6 +49,7 @@ def _get_attr():
 
     print("from get attr:", item_name)
     #print(item_name)
+    #should reorder or rewrite my js
     attr = [(row.attr_ID, row.attr_name) for row in TrainingItem.query.filter_by(item_name=item_name).first().attr]
     #print(attr)
 
@@ -62,33 +63,50 @@ def add_plan():
     print("Hey There!!!\n")
     form = AddPlanForm()
 
-    forms = [form.training_level, form.item_name, form.attr_name, form.comp]
+    forms = [form.plan_ID, form.training_level, form.item_name, form.attr_name, form.comp]
     csrf_token = form.csrf_token
 
-    print(form.validate())
 
-    print(form.training_level.data)
-    print(form.item_name.data)
-    print(form.attr_name.data)
-    print(form.comp.data)
-    if form.validate_on_submit():
-        new_plan = TrainingPlan()
-        plan_req = RequirementInPlan();
-        plan_req.plan_ID = 1# need to query database for this
-        #plan_req.item_ID = TrainingItem.query.filter_by(item_name=form.item_name.data).first().item_ID
+    # should add the validators in the future, no exception handling at all, running freely!!!
+    if request.method == 'POST':
+        print(form.train_at.data)
+        print(form.training_last.data)
 
-        # a for loop
-        # for x in form.temp_name.data:
-        #     print(x)
-            #plan_req.attr_ID = 
+        plan_id = db.session.query(func.max(TrainingPlan.plan_ID)).scalar()
+        if plan_id < form.plan_ID.data:
+            new_plan = TrainingPlan(plan_ID=form.plan_ID.data,
+                                    train_at=form.train_at.data,
+                                    training_last=form.training_last.data,
+                                    ID=session['login_ID'],
+                                    training_level=form.training_level.data)
 
-        print(request.form)
-        #print(form.temp_name.data)
+            db.session.add(new_plan)
+            plan_id = form.plan_ID.data
+        #ad.session.commit()
+
+        newItem = TrainingItem.query.filter_by(item_name=form.item_name.data).first()
+        item_id = newItem.item_ID
+        newAttr = [ID.attr_ID for ID in newItem.attr]
+        for i in range(len(newAttr)):
+            new_req = RequirementInPlan(plan_ID=plan_id,
+                                        item_ID=item_id,
+                                        attr_ID=newAttr[i],
+                                        comp=form.comp.data[i],
+                                        requirement=form.attr_name.data[i]
+            )
+
+            db.session.add(new_req)
+
+
+        db.session.commit()
 
         redirect(url_for('training.add_plan'))
     error = None
 
-    return render_template('add_plan.html', csrf_token=csrf_token, forms=forms)
+    return render_template('add_plan.html',
+                           train_at=form.train_at,
+                           training_last=form.training_last,
+                           csrf_token=csrf_token, forms=forms)
 
 @training_blueprint.route('/add_item', methods=['GET', 'POST'])
 @login_required
