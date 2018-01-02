@@ -47,9 +47,10 @@ def show_item():
 def _get_attr():
     item_name = request.args.get('item_name', '01', type=str)
 
+    print("from get attr:", item_name)
     #print(item_name)
-    attr = [(row.attr_ID, row.attr_name) for row in TrainingItem.query.filter(TrainingItem.item_name==item_name).first().attr]
-    print(attr)
+    attr = [(row.attr_ID, row.attr_name) for row in TrainingItem.query.filter_by(item_name=item_name).first().attr]
+    #print(attr)
 
     return jsonify(attr)
 
@@ -61,26 +62,28 @@ def add_plan():
     print("Hey There!!!\n")
     form = AddPlanForm()
 
-    
-
-    forms = [form.training_level, form.item_name, form.attr_name, form.comp, form.temp_name]
+    forms = [form.training_level, form.item_name, form.attr_name, form.comp]
     csrf_token = form.csrf_token
 
     print(form.validate())
-    print(form.temp_name)
+
+    print(form.training_level.data)
+    print(form.item_name.data)
+    print(form.attr_name.data)
+    print(form.comp.data)
     if form.validate_on_submit():
         new_plan = TrainingPlan()
         plan_req = RequirementInPlan();
         plan_req.plan_ID = 1# need to query database for this
-        plan_req.item_ID = TrainingItem.query.filter_by(item_name=form.item_name.data).first().item_ID
+        #plan_req.item_ID = TrainingItem.query.filter_by(item_name=form.item_name.data).first().item_ID
 
         # a for loop
-        for x in form.temp_name.data:
-            print(x)
+        # for x in form.temp_name.data:
+        #     print(x)
             #plan_req.attr_ID = 
 
         print(request.form)
-        print(form.temp_name.data)
+        #print(form.temp_name.data)
 
         redirect(url_for('training.add_plan'))
     error = None

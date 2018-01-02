@@ -31,7 +31,7 @@
  var dropdown = {
      item: $('#item_name'),
      attr: $('#attr_name'),
-     temp: $('#temp_name')
+     comp: $('#comp')
  };
 
  updateattr();
@@ -46,24 +46,22 @@
      //send = {item: "卧拉"}; // default
      dropdown.attr.attr('disabled', 'disabled');
      dropdown.attr.empty();
-     dropdown.temp.attr('disabled', 'disabled');
-     dropdown.temp.empty();
-
+     dropdown.comp.attr('disabled', 'disabled');
+     dropdown.comp.empty();
 
      $.getJSON("_get_attr", send, function(result) {
          $.each(result, function(i, field) {
-             dropdown.attr.append(
+             dropdown.comp.append(
                  $('<option>', {
-                     value: field[0],
-                     text: field[1]
+                     name: "comp-" + field[0],
+value: ""
                  })
 
              );
-             dropdown.temp.append(
+             dropdown.attr.append(
                  $('<input>', {
-                     name: 'temp_name-' + i,
-                     value: field[0],
-                     text: field[1]
+                     name: 'attr_name-' + field[0],
+                     value: field[1],
                  })
              );
 

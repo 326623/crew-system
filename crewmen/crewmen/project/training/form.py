@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import BooleanField, StringField, PasswordField, validators, RadioField, SelectField, DecimalField, DateTimeField, FieldList
 from wtforms_components import DateRange
 from wtforms.validators import DataRequired, Length, Email, EqualTo, InputRequired
+from decimal import Decimal
 from models import *
 
 class UpdateItemForm(FlaskForm):
@@ -39,21 +40,22 @@ class AddPlanForm(FlaskForm):
         validators=[InputRequired()]
     )
 
-    temp_name = FieldList(
-        DecimalField(), label='testing', min_entries=1
+    attr_name = FieldList(
+        DecimalField(default=Decimal('-1')),
+        label='Attribute Value',
+        min_entries=ItemAttribute.query.count()
     )
 
-    attr_name = SelectField(
-        'Attr Name',
-        choices=[(row.attr_name, row.attr_name) for row in ItemAttribute.query.all()],
-        validators=[InputRequired()]
+    comp = FieldList(
+        SelectField(choices=[('larger', 'larger'), ('smaller', 'smaller')]),
+        min_entries=ItemAttribute.query.count()
     )
 
-    comp = SelectField(
-        'comp',
-        choices=[('larger', 'larger'), ('smaller', 'smaller')],
-        validators=[InputRequired()]
-    )
+    # comp = SelectField(
+    #     'comp',
+    #     choices=[('larger', 'larger'), ('smaller', 'smaller')],
+    #     validators=[InputRequired()]
+    # )
 
     item_name = SelectField(
         'Item Name',
