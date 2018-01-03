@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, session, g, request, flash, Blueprint, abort, jsonify
-from crewmen import app, login_required, wraps
+from crewmen import app, login_required, power_required
 import datetime
 from models import *
 from flask_nav import Nav
@@ -17,17 +17,6 @@ training_blueprint = Blueprint(
 ########################
 ### helper function ####
 ########################
-
-def power_required(f):
-    @wraps(f)
-    def wrap(*arg, **kwargs):
-        job = session['login_job']
-        if job == 'crew leader' or job == 'couch':
-            return f(*arg, **kwargs)
-        else:
-            flash('You have no power.')
-            return redirect(url_for('home'))
-    return wrap
 
 ########################
 ########################

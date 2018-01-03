@@ -24,6 +24,18 @@ def login_required(f):
             return redirect(url_for('user.login'))
     return wrap
 
+def power_required(f):
+    @wraps(f)
+    def wrap(*arg, **kwargs):
+        job = session['login_job']
+        if job == 'crew leader' or job == 'couch':
+            return f(*arg, **kwargs)
+        else:
+            flash('You have no power.')
+            return redirect(url_for('home'))
+    return wrap
+
+
 ########################
 ########################
 ########################

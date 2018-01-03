@@ -4,4 +4,5 @@
   1. Adding some documentation of this project.
   2. Working more on exception handling.
   3. Dig more into wtf_components and sqlalchemy.
-  4. Find a license.
+  4. Adding Flask-testing
+  5. Find a license.
