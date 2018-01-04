@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}add member{% endblock%}
+
+{% import "base.html" as base %}
+
+{% block content %}
+
+<H3>Adding new member</H3>
+<form method="post" action="{{ url_for('member.add_member') }}">
+    {{ form.csrf_token }}
+
+    <p>{{ form.name.label }}  {{ form.name(size=20) }} </p>
+
+    <p>{{ form.sex.label }}  {{ form.sex(size=1) }} </p>
+
+    <p>{{ form.enter_club.label }}  {{ form.enter_club(size=20) }} </p>
+
+    <p>{{ form.ID.label }}  {{ form.ID(size=20) }} </p>
+
+    <p>{{ form.submit.label }}  {{ form.submit(size=2) }} </p>
+
+    {% for fieldName, errorMessages in form.errors.items() %}
+        {% for err in errorMessages %}
+                {{ err }}
+        {% endfor %}
+    {% endfor %}
+
+    {{ base.flash_message() }}
+</form>
+{% endblock %}

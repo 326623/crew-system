@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Delete member{% endblock%}
+
+{% import "base.html" as base %}
+
+{% block content %}
+
+<H3>Delete member</H3>
+<form method="post" action="{{ url_for('member.delete_member') }}">
+    {{ form.csrf_token }}
+
+    <p>{{ form.ID.label }}  {{ form.ID(size=20) }} </p>
+
+    <p>{{ form.submit.label }}  {{ form.submit(size=2) }} </p>
+
+    {% for fieldName, errorMessages in form.errors.items() %}
+        {% for err in errorMessages %}
+            {{ err }}
+        {% endfor %}
+    {% endfor %}
+
+    {{ base.flash_message() }}
+</form>
+{% endblock %}

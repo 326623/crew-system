@@ -8,7 +8,7 @@
     {% for form in forms %}
     <p>{{ form.label }} {{ form(size=20) }}</p>
         {% if form.errors %}
-            {% for form in form.errors %}
+            {% for error in form.errors %}
                 {{ error }}
             {% endfor %}
         {% endif %}

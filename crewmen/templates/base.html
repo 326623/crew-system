@@ -1,4 +1,17 @@
 {%- extends "bootstrap/base.html" %}
+{% macro flash_message() %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+{% endmacro %}
+
 
 {% block title %}Base of Users{% endblock %}
 

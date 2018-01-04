@@ -2,7 +2,7 @@
 {% block title %}Register{% endblock %}
 {% block content %}
 <h2>Register</h2>
-<form action="{{ url_for('register')}}" method="post">
+<form action="{{ url_for('user.register')}}" method="post">
     <dl>
         <dt>Username:
             <dd><input type="text" name="username">
@@ -21,6 +21,6 @@
             {% if ID_error %}
                 <p class="noID_error"><strong>Error:</strong>{{ ID_error }}</p>
             {% endif %}
-            <dd><a href="{{ url_for('login') }}">Login</a>
+            <dd><a href="{{ url_for('user.login') }}">Login</a>
 </form>
 {% endblock %}

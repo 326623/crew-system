@@ -36,9 +36,9 @@ def power_required(f):
     return wrap
 
 
-########################
-########################
-########################
+##########################
+### Initialize the app ###
+##########################
 
 
 def Init_app():
@@ -60,22 +60,45 @@ app.register_blueprint(training_blueprint)
 app.register_blueprint(member_blueprint)
 app.register_blueprint(fee_blueprint)
 
+############################
+### The navigation panel ###
+############################
+
 
 nav = Nav()
 @nav.navigation()
 def top():
-    items = [View('home', 'home'),
-             View('Profile', 'member.member_profile'),
-             View('Log out', 'user.logout'),
-             View('Change Password', 'user.password_update'),
-             View('Training', 'training.show_training_plan'),
-             View('Training Item', 'training.show_item'),
-             View('Show Fee Log', 'fee.show_fee_log'),
-             View('Add Fee Log', 'fee.add_fee_log'),]
+
+    # no nav for register.html
+
+    items = [View('home', 'home')]
+    user_sub_list = [View('Log out', 'user.logout'),
+                     View('Change Password', 'user.password_update'),]
+
+    training_sub_list = [View('Training', 'training.show_training_plan'),
+                         View('Training Item', 'training.show_item'),]
+
+    fee_sub_list = [View('Show Fee Log', 'fee.show_fee_log'),
+                    View('Add Fee Log', 'fee.add_fee_log'),]
+
+    member_sub_list = [View('Profile', 'member.member_profile'),]
+
 
     if session['login_job'] in ['crew leader', 'couch']:
-        items = items + [View('Add training plan', 'training.add_plan'),
-                         View('Add Training item', 'training.add_item')]
+        training_sub_list += [View('Add Training plan', 'training.add_plan'),
+                              View('Add Training item', 'training.add_item'),]
+
+        member_sub_list += [View('Add New Member ', 'member.add_member'),
+                            View('Delete Member', 'member.delete_member'),
+                            View('Show all member profile', 'member.allmember_profile'),]
+    else:
+        # do nothing ...
+        1
+
+    items = items + [Subgroup('User', *user_sub_list),
+                     Subgroup('Training', *training_sub_list),
+                     Subgroup('Member', *member_sub_list),
+                     Subgroup('Fee', *fee_sub_list)]
 
     return Navbar('Home', *items)
 nav.init_app(app)
