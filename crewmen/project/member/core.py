@@ -43,7 +43,7 @@ def add_member():
         newMember.enter_club = form.enter_club.data
         newMember.ID = form.ID.data
         db.session.add(newMember)
-        db.commit()
+        db.session.commit()
         flash("You have added a new user!")
         return render_template('add_member.html', form=form)
 
