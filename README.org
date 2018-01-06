@@ -14,7 +14,7 @@
 * To join dev
   Note: Well, I am currently on linux, so the following steps are only for linux. Reach out to me if there were any problem.
 
-  Please have *python3* and *mysql* install
+  Please have *python3* and *mysql* installed
 
   1. Pay attention to the *requirement.txt* under *\crew-system\crewmen* directory.
 
@@ -71,6 +71,7 @@
   Using Blueprint from flask, I am able to divide the project.
 
   I am currently using *new-crew-system.sql* as the database schema.
+  Reading the commented parts
 
     #+BEGIN_EXAMPLE
     .
