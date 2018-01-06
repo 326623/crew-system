@@ -1,8 +1,154 @@
 * Introduction
   This project is dedicated to my rowing crew in school. Powered by Newjoy.
+
+  This project rely hugely on *python3* and the *python-flask*. Read some of the introduction documentation to get started.
+
+  http://flask.pocoo.org/
+
 * Schedule
   1. Adding some documentation of this project.
   2. Working more on exception handling.
   3. Dig more into wtf_components and sqlalchemy.
   4. Adding Flask-testing
   5. Find a license.
+* To join dev
+  Note: Well, I am currently on linux, so the following steps are only for linux. Reach out to me if there were any problem.
+
+  Please have *python3* and *mysql* install
+
+  1. Pay attention to the *requirement.txt* under *\crew-system\crewmen* directory.
+
+     Search documentation for *virtualenv*. Using virtualenv to create a clean development environment like the following steps:
+
+     This create a virtual environment under the directory *crew-app* with python3 instead of python2, if you have python2 installed.
+     #+BEGIN_EXAMPLE
+     virtualenv -p /usr/bin/python3 crew-app
+     #+END_EXAMPLE
+
+     activate the virtual environment
+     #+BEGIN_EXAMPLE
+     source ~/crew-app/bin/activate
+     #+END_EXAMPLE
+
+     Install the required python packages to get started. After installation, you are ready to go.
+     #+BEGIN_SRC 
+     pip install -r requirement.txt
+     #+END_SRC
+
+  2. Next on, environment variable
+
+     Two environment need to be set in order to run the flask application.
+
+     1. *FLASK_APP*
+
+        Maybe a good idea to put it in your *.bashrc* or *.zshrc* if you are using zsh. 
+        
+        Note: These two files are the configuration file for command line, basically it works by "when you launch the bash or zsh it loads the .bashrc or .zshrc first".
+        
+        It basically is telling flask to look for the location of the app. Seek [[http://flask.pocoo.org/][doc]] for more detail.
+        #+BEGIN_EXAMPLE
+        export FLASK_APP='~/my-repo/crew-system/crewmen/crewmen.py'
+        #+END_EXAMPLE
+
+     2. *FLASK_DEBUG*, well this is optional, but great helper during development
+        Setting it to true
+        #+BEGIN_EXAMPLE
+        export FLASK_DEBUG=1
+        #+END_EXAMPLE
+
+  3. Just before launching the app
+     Need to load the database schema(*new-crew-system.sql*) into database, and the *test-data.sql* as the starting data. It has the login password and user.
+
+  4. Now, launch the application to see what we have got
+      
+     running the command
+     #+BEGIN_EXAMPLE
+     python -m flask run
+     #+END_EXAMPLE
+
+
+* Structure
+  Using Blueprint from flask, I am able to divide the project.
+
+  I am currently using *new-crew-system.sql* as the database schema.
+
+    #+BEGIN_EXAMPLE
+    .
+  ├── command                    #        useless
+  ├── config.py                  # important config file
+  ├── crew-management.sql        #        useless
+  ├── crewmen.py                 # main file, backbone of the project
+  ├── crew-user.sql              #        useless
+  ├── init_crew.py               #        useless
+  ├── models.py                  # important orm(object relation mapping) model file
+  ├── new-crew-schema.sql        # base of the project, database schema
+  ├── project                    # holding module for the project
+  │   ├── fee                    # fee module
+  │   │   ├── core.py            # core holds the base functions
+  │   │   ├── form.py            # form holds the class to deal with form
+  │   │   ├── __init__.py        # for the intepreter to recognize as a module
+  │   │   ├──  *Minibuf-1*
+  │   │   ├── __pycache__        #         useless, consider getting rid of it
+  │   │   │   ├── core.cpython-35.pyc
+  │   │   │   ├── form.cpython-35.pyc
+  │   │   │   └── __init__.cpython-35.pyc
+  │   │   └── templates          # html
+  │   │       ├── add_fee_log.html
+  │   │       └── show_fee_log.html
+  │   ├── __init__.py
+  │   ├── member                 # member module
+  │   │   ├── core.py
+  │   │   ├── form.py
+  │   │   ├── __init__.py
+  │   │   ├── __pycache__
+  │   │   │   ├── core.cpython-35.pyc
+  │   │   │   ├── form.cpython-35.pyc
+  │   │   │   └── __init__.cpython-35.pyc
+  │   │   └── templates
+  │   │       ├── add_member.html
+  │   │       ├── allmember_profile.html
+  │   │       ├── delete_member.html
+  │   │       └── member_profile.html
+  │   ├── __pycache__
+  │   │   └── __init__.cpython-35.pyc
+  │   ├── training               # training module
+  │   │   ├── core.py
+  │   │   ├── form.py
+  │   │   ├── __init__.py
+  │   │   ├── __pycache__
+  │   │   │   ├── core.cpython-35.pyc
+  │   │   │   ├── form.cpython-35.pyc
+  │   │   │   └── __init__.cpython-35.pyc
+  │   │   └── templates
+  │   │       ├── add_item.html
+  │   │       ├── add_plan.html
+  │   │       ├── show_item.html
+  │   │       └── training_plan.html
+  │   └── user                   # user module
+  │       ├── core.py
+  │       ├── form.py
+  │       ├── __init__.py
+  │       ├── __pycache__
+  │       │   ├── core.cpython-35.pyc
+  │       │   ├── form.cpython-35.pyc
+  │       │   ├── __init__.cpython-35.pyc
+  │       │   ├── login.cpython-35.pyc
+  │       │   └── views.cpython-35.pyc
+  │       └── templates
+  │           ├── login.html
+  │           ├── password_update.html
+  │           └── register.html
+  ├── __pycache__
+  │   ├── config.cpython-35.pyc
+  │   ├── crewmen.cpython-35.pyc
+  │   ├── init_crew.cpython-35.pyc
+  │   └── models.cpython-35.pyc
+  ├── requirements.txt            # dependency package
+  ├── templates                   # htmls
+  │   ├── base.html               # base of htmls, backbone
+  │   ├── home.html
+  │   └── welcome.html
+  ├── test-data.sql               # testing data
+  └── test.py
+
+    #+END_EXAMPLE
