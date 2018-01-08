@@ -88,6 +88,7 @@ def add_plan():
 
 
         db.session.commit()
+        flash("You have added a new plan.")
 
         redirect(url_for('training.add_plan'))
     error = None
@@ -104,6 +105,21 @@ def add_plan_item():
     form = AddPlanItemForm()
 
     if form.validate_on_submit():
+        plan_id = form.plan_ID.data
+        new_req = RequirementInPlan()
+        newItem = TrainingItem.query.filter_by(item_name=form.item_name.data).first()
+        item_id = newItem.item_ID
+        newAttr = [ID.attr_ID for ID in newItem.attr]
+
+        for i in range(len(newAttr)):
+            new_req = RequirementInPlan(plan_ID=plan_id,
+                                        item_ID=item_id,
+                                        attr_ID=newAttr[i],
+                                        comp=form.comp.data[i],
+                                        requirement=form.attr_name.data[i])
+            db.session.add(new_req)
+
+        db.session.commit()
 
         flash("You have added a new item to the plan")
 
