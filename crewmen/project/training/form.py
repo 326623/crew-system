@@ -25,7 +25,7 @@ class UpdateItemForm(FlaskForm):
 
 class AddPlanForm(FlaskForm):
 
-    plan_ID = DecimalField(default=Decimal('-1'),
+    plan_ID = DecimalField(default=Decimal(db.session.query(func.max(TrainingPlan.plan_ID)).scalar()) + 1,
                            label='plan_ID')
 
     train_at = DateTimeField(
@@ -74,7 +74,7 @@ class AddPlanForm(FlaskForm):
     #for attr in TrainingItem.query().attr:
 
 class AddPlanItemForm(FlaskForm):
-    plan_ID = DecimalField(default=Decimal('-1'),
+    plan_ID = DecimalField(default=Decimal(db.session.query(func.max(TrainingPlan.plan_ID)).scalar()),
                            label='plan_ID')
 
     training_level = SelectField(
@@ -90,7 +90,7 @@ class AddPlanItemForm(FlaskForm):
     )
 
     comp = FieldList(
-        SelectField(default=('Not picked', 'Not picked'), choices=[('larger', 'larger'), ('smaller', 'smaller')]),
+        SelectField(default='Not required', choices=[('larger', 'larger'), ('smaller', 'smaller'), ('Not required', 'Not required')]),
         min_entries=ItemAttribute.query.count()
     )
 
