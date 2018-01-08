@@ -86,7 +86,8 @@ def top():
 
     if session['login_job'] in ['crew leader', 'couch']:
         training_sub_list += [View('Add Training plan', 'training.add_plan'),
-                              View('Add Training item', 'training.add_item'),]
+                              View('Add Training item', 'training.add_item'),
+                              View('Add Item to Plan', 'training.add_plan_item'),]
 
         member_sub_list += [View('Add New Member ', 'member.add_member'),
                             View('Delete Member', 'member.delete_member'),
