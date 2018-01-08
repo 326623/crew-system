@@ -12,6 +12,14 @@
     {% endwith %}
 {% endmacro %}
 
+{% macro flush_form_error(items) %}
+{# passing in the dictionary of the form's error object #}
+        {% for fieldName, errorMessages in items %}
+            {%for err in errMessages %}
+                <strong> {{ fieldName }}: </strong> {{ err }}
+            {% endfor %}
+        {% endfor %}
+{% endmacro %}
 
 {% block title %}Base of Users{% endblock %}
 

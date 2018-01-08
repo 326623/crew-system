@@ -4,7 +4,7 @@ import datetime
 from models import *
 from flask_nav import Nav
 from flask_nav.elements import *
-from .form import *
+from .form import AddPlanForm, UpdateItemForm, AddPlanItemForm
 ##################
 ### Navbar init###
 ##################
@@ -96,6 +96,18 @@ def add_plan():
                            train_at=form.train_at,
                            training_last=form.training_last,
                            csrf_token=csrf_token, forms=forms)
+
+@training_blueprint.route('/add_plan_item', methods=['GET', 'POST'])
+@login_required
+@power_required
+def add_plan_item():
+    form = AddPlanItemForm()
+
+    if form.validate_on_submit():
+
+        flash("You have added a new item to the plan")
+
+    return render_template('add_plan_item.html', form=form)
 
 @training_blueprint.route('/add_item', methods=['GET', 'POST'])
 @login_required

@@ -1,25 +1,38 @@
 {% extends "base.html" %}
-{% block title %}Add plan{% endblock %}
+{% block title %}Delete member{% endblock%}
+
+{% import "base.html" as base %}
+
 {% block content %}
-<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-<form action="{{ url_for('training.add_plan') }}" method="post">
-    {{ csrf_token }}
 
-    <!-- no error handling at all   -->
+<H3>Delete member</H3>
+<form method="post" action="{{ url_for('training.add_plan_item') }}">
+    {{ form.csrf_token }}
 
-    <p>{{ train_at.label }} {{ train_at(size=10) }}</p>
-    <p> {{ training_last.label }} {{ training_last(size=10) }} </p>
+    <p>{{ form.plan_ID.label }}  {{ form.plan_ID(size=2) }} </p>
 
-    {% for form in forms %}
-    <p>{{ form.label }} {{ form(size=1) }}</p>
-    {% if form.errors %}
-    {% for error in form.errors %}
-    {{ error }}
+    <p>{{ form.training_level.label }} {{ form.training_level(size=1) }} </p>
+
+    <p>{{ form.item_name.label }} {{ form.item_name(size=1) }} </p>
+
+    <p>{{ form.attr_name.label }} {{ form.attr_name(size=5) }} </p>
+
+    <p>{{ form.comp(size=1) }} </p>
+
+    <p> {{ form.submit(size=2) }} </p>
+
+    {% for fieldName, errorMessages in form.errors.items() %}
+        {% for err in errorMessages %}
+            {{ err }}
+        {% endfor %}
     {% endfor %}
-    {% endif %}
-    {% endfor %}
-    <input type="submit" value="Add">
+
+    {{ base.flush_form_error(form.errors.items()) }}
+
+    {{ base.flash_message() }}
 </form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
 <script>
  /* $( "select" )
