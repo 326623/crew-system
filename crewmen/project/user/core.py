@@ -105,7 +105,7 @@ def register():
                 db.session.add(newuser)
                 db.session.commit()
                 flash('You have just registered. Welcome!')
-    return render_template('user.register.html', password_error=password_error, ID_error=ID_error)
+    return render_template('register.html', password_error=password_error, ID_error=ID_error)
 
 @user_blueprint.route('/password_update', methods=['GET', 'POST'])
 @login_required
