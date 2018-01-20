@@ -1,8 +1,8 @@
 -- operate with root
-drop user 'crew-root'@'localhost';
-drop user 'crew-leader'@'localhost';
-drop user 'crew-member'@'localhost';
-drop user 'crew-login'@'localhost';
+-- drop user 'crew-root'@'localhost';
+-- drop user 'crew-leader'@'localhost';
+-- drop user 'crew-member'@'localhost';
+-- drop user 'crew-login'@'localhost';
 
 create user 'crew-root'@'localhost' identified by 'crew-root';
 create user 'crew-leader'@'localhost' identified by 'crew-leader';
