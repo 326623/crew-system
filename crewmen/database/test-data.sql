@@ -1,4 +1,5 @@
 -- executed with crew-leader
+use crewmen;
 insert into member(name, ID, training_level) values
 ('于H', '0', 'old bird'),
 ('郭D胜', '1', 'old bird'),
