@@ -1,7 +1,7 @@
 -- with debug if and if not
 
--- create database crewmen character set utf8 collate utf8_general_ci;
-use crewmen;
+create database test character set utf8 collate utf8_general_ci;
+use test;
 
 drop table if exists users;
 drop table if exists plan_maker;

@@ -153,3 +153,8 @@
   └── test.py
 
     #+END_EXAMPLE
+
+* log
+
+** 把mysql table变成sqlalchemy的模型
+   利用sqlacodegen
