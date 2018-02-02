@@ -6,7 +6,7 @@ from crew_api import api, db
 ##################################################################
 
 ##################################################################
-### Some problems with utf-8 #####################################
+### Some problems with utf-8, some error  ########################
 ##################################################################
 
 from sqlalchemy import BINARY, Column, Date, DateTime, ForeignKey, ForeignKeyConstraint, Index, Integer, Numeric, SmallInteger, String, Table, Time, text
@@ -19,11 +19,24 @@ Base = declarative_base()
 metadata = Base.metadata
 
 
-t_attr_in_item = Table(
-    'attr_in_item', metadata,
-    Column('attr_ID', ForeignKey('item_attribute.attr_ID'), primary_key=True, nullable=False),
-    Column('item_ID', ForeignKey('training_item.item_ID'), primary_key=True, nullable=False, index=True)
-)
+# t_attr_in_item = Table(
+#     'attr_in_item', metadata,
+#     Column('attr_ID', ForeignKey('item_attribute.attr_ID'), primary_key=True, nullable=False),
+#     Column('item_ID', ForeignKey('training_item.item_ID'), primary_key=True, nullable=False, index=True)
+# )
+
+# AttrInItem = Table(
+#     'attr_in_item', metadata,
+#     Column('attr_ID', ForeignKey('item_attribute.attr_ID'), primary_key=True, nullable=False),
+#     Column('item_ID', ForeignKey('training_item.item_ID'), primary_key=True, nullable=False, index=True)
+# )
+
+# post bug for sqlacodegen where we have a relationship that has a direct and a secondary relation
+class AttrInItem(Base):
+     __tablename__ = 'attr_in_item'
+
+     attr_ID = Column(ForeignKey('item_attribute.attr_ID'), primary_key=True, nullable=False)
+     item_ID = Column(ForeignKey('training_item.item_ID'), primary_key=True, nullable=False, index=True)
 
 
 class FeeLog(Base):
@@ -48,7 +61,7 @@ class Member(Base):
     __tablename__ = 'member'
 
     name = Column(String(20), nullable=False)
-    sex = Column(ENUM('男', '女'), server_default=text("'男'"))
+    sex = Column(ENUM(u'男', u'女'), server_default=text(u"'男'"))
     enter_club = Column(Date)
     enter_school = Column(Date)
     birth = Column(Date)
@@ -62,11 +75,18 @@ class Member(Base):
     schedule = relationship('Schedule', secondary='schedule_maker')
 
 
+# t_paid_by = Table(
+#     'paid_by', metadata,
+#     Column('ID', ForeignKey('member.ID', ondelete='CASCADE'), primary_key=True, nullable=False),
+#     Column('fee_ID', ForeignKey('fee_log.fee_ID'), primary_key=True, nullable=False, index=True)
+# )
+
 t_paid_by = Table(
     'paid_by', metadata,
     Column('ID', ForeignKey('member.ID', ondelete='CASCADE'), primary_key=True, nullable=False),
     Column('fee_ID', ForeignKey('fee_log.fee_ID'), primary_key=True, nullable=False, index=True)
 )
+
 
 
 t_record_in_plan = Table(
@@ -187,4 +207,3 @@ class User(Base):
 
     member = relationship('Member')
 
-User = api.clone('User', User)
