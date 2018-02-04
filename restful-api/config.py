@@ -13,3 +13,6 @@ class DevelopmentConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     DEBUG = False
+
+class TestConfig(BaseConfig):
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://test@localhost/test'
