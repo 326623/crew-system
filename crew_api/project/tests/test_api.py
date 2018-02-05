@@ -1,3 +1,4 @@
 #from models import me
 from flask_testing import TestCase
-from apiv1 import app
+from crew_api.project.crew_api import app
+
