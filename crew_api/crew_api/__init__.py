@@ -1,3 +1,7 @@
+##############
+### config ###
+##############
+
 import os
 
 class BaseConfig(object):
@@ -16,3 +20,23 @@ class ProductionConfig(BaseConfig):
 
 class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://test@localhost/test'
+
+
+##############
+### import ###
+##############
+
+from flask import Flask, request
+#from flask_restful import Resource, Api
+from flask_restplus import fields, Resource, Api
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+##########################
+### Initialize the app ###
+##########################
+
+app = Flask(__name__)
+app.config.from_object(DevelopmentConfig)
+db = SQLAlchemy(app)
+api = Api(app)
