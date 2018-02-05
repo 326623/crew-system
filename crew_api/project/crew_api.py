@@ -1,5 +1,9 @@
 #from models import *
-from project import api
+import sys
+print(sys.path)
+#from project import api
+#from crew_api import project
+#from . import api
 
 from collections import OrderedDict
 

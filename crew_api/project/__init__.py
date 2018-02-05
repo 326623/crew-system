@@ -14,7 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 #app.config.from_object('config.DevelopmentConfig')
-#app.config.from_object('config.TestConfig')
+app.config.from_object('config.TestConfig')
 db = SQLAlchemy(app)
 api = Api(app)
 
