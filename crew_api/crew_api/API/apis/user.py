@@ -1,5 +1,6 @@
 from flask_restplus import Namespace, Resource, fields
-from crew_api.models import db ,User
+from crew_api import db
+from crew_api.models import User
 
 api = Namespace('user', description='user related operation')
 
@@ -14,6 +15,7 @@ user_info = api.model('User', {
 class user_api(Resource):
     @api.marshal_with(user_info)
     def get(self, id):
+        user=None
         # would raise exception when multiple row is found or no row is found
         try:
             user=db.session.query(User).filter(User.ID == id).one()

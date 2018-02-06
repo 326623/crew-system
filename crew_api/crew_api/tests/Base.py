@@ -1,5 +1,6 @@
 from flask_testing import TestCase
 from crew_api.main import app, db
+#from crew_api.memory_table import Base
 from crew_api.config import TestConfig
 
 import unittest
