@@ -6,7 +6,7 @@
 ##################################################################
 ### Some problems with utf-8, some error  ########################
 ##################################################################
-from crew_api import db
+from crew_api.main import db
 from sqlalchemy import BINARY, Column, Date, DateTime, ForeignKey, ForeignKeyConstraint, Index, Integer, Numeric, SmallInteger, String, Table, Time, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql.enumerated import ENUM

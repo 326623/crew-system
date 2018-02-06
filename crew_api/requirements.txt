@@ -1,10 +1,12 @@
 aniso8601==2.0.0
 click==6.7
+-e git+https://github.com/326623/crew-system@3537ed9596200402d6af46ba0d5df01dcdc3b454#egg=crew_api&subdirectory=crew_api
 Flask==0.12.2
 Flask-RESTful==0.3.6
 flask-restplus==0.10.1
 Flask-SQLAlchemy==2.3.2
 Flask-Testing==0.7.1
+inflect==0.2.5
 itsdangerous==0.24
 Jinja2==2.10
 jsonschema==2.6.0
@@ -12,5 +14,6 @@ MarkupSafe==1.0
 PyMySQL==0.8.0
 pytz==2017.3
 six==1.11.0
+sqlacodegen==1.1.6
 SQLAlchemy==1.2.2
 Werkzeug==0.14.1

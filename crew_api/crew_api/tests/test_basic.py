@@ -1,5 +1,5 @@
 from crew_api.models import metadata, AttrInItem, FeeLog, ItemAttribute, Member
-from Base import BaseTestCase
+from crew_api.tests.Base import BaseTestCase
 import unittest
 
 class FlaskTestCase(BaseTestCase):
