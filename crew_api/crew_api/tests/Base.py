@@ -1,8 +1,9 @@
 from flask_testing import TestCase
 from crew_api import app, db, TestConfig
-from crew_api.models import metadata, AttrInItem, FeeLog, ItemAttribute, Member
 
 import unittest
+#import flask_testing
+
 
 class BaseTestCase(TestCase):
     """A base test case."""
