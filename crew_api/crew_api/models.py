@@ -10,11 +10,19 @@ from sqlalchemy import BINARY, Column, Date, DateTime, ForeignKey, ForeignKeyCon
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql.enumerated import ENUM
 from sqlalchemy.ext.declarative import declarative_base
+from crew_api.main import db
 
+# Base = declarative_base()
+# metadata = Base.metadata
+table_args = {'mysql_engine': 'InnoDB'}
+if 'test' in str(db.engine):
+     table_args = {'mysql_engine': 'MEMORY'}
 
-Base = declarative_base()
+print(db.engine)
+print(table_args)
+
+Base = db.Model
 metadata = Base.metadata
-
 
 # t_attr_in_item = Table(
 #     'attr_in_item', metadata,
@@ -31,6 +39,7 @@ metadata = Base.metadata
 # post bug for sqlacodegen where we have a relationship that has a direct and a secondary relation
 class AttrInItem(Base):
      __tablename__ = 'attr_in_item'
+     __table_args__ = table_args
 
      attr_ID = Column(ForeignKey('item_attribute.attr_ID'), primary_key=True, nullable=False)
      item_ID = Column(ForeignKey('training_item.item_ID'), primary_key=True, nullable=False, index=True)
@@ -38,6 +47,7 @@ class AttrInItem(Base):
 
 class FeeLog(Base):
     __tablename__ = 'fee_log'
+    __table_args__ = table_args
 
     cost = Column(Numeric(13, 2))
     used_at = Column(DateTime)
@@ -47,6 +57,7 @@ class FeeLog(Base):
 
 class ItemAttribute(Base):
     __tablename__ = 'item_attribute'
+    __table_args__ = table_args
 
     attr_ID = Column(Integer, primary_key=True)
     attr_name = Column(String(100), unique=True)
@@ -56,6 +67,7 @@ class ItemAttribute(Base):
 
 class Member(Base):
     __tablename__ = 'member'
+    __table_args__ = table_args
 
     name = Column(String(20), nullable=False)
     sex = Column(ENUM(u'男', u'女'), server_default=text(u"'男'"))
@@ -95,6 +107,7 @@ t_record_in_plan = Table(
 
 class RequirementInPlan(Base):
     __tablename__ = 'requirement_in_plan'
+    __table_args__ = table_args
     __table_args__ = (
         ForeignKeyConstraint(['item_ID', 'attr_ID'], ['attr_in_item.item_ID', 'attr_in_item.attr_ID']),
         Index('item_ID', 'item_ID', 'attr_ID')
@@ -112,6 +125,7 @@ class RequirementInPlan(Base):
 
 class Schedule(Base):
     __tablename__ = 'schedule'
+    __table_args__ = table_args
 
     add_time = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
     happen_at = Column(DateTime)
@@ -130,6 +144,7 @@ t_schedule_maker = Table(
 
 class Ship(Base):
     __tablename__ = 'ship'
+    __table_args__ = table_args
 
     ship_name = Column(String(100), primary_key=True)
     ship_type_ID = Column(ForeignKey('ship_type_table.ship_type_ID'), index=True)
@@ -140,6 +155,7 @@ class Ship(Base):
 
 class ShipTypeTable(Base):
     __tablename__ = 'ship_type_table'
+    __table_args__ = table_args
 
     ship_type_ID = Column(Integer, primary_key=True)
     ship_type_name = Column(String(100))
@@ -147,6 +163,7 @@ class ShipTypeTable(Base):
 
 class StatusInRecord(Base):
     __tablename__ = 'status_in_record'
+    __table_args__ = table_args
     __table_args__ = (
         ForeignKeyConstraint(['item_ID', 'attr_ID'], ['attr_in_item.item_ID', 'attr_in_item.attr_ID']),
         Index('item_ID', 'item_ID', 'attr_ID')
@@ -163,6 +180,7 @@ class StatusInRecord(Base):
 
 class TrainingItem(Base):
     __tablename__ = 'training_item'
+    __table_args__ = table_args
 
     item_name = Column(String(100))
     item_ID = Column(Integer, primary_key=True)
@@ -172,6 +190,7 @@ class TrainingItem(Base):
 
 class TrainingPlan(Base):
     __tablename__ = 'training_plan'
+    __table_args__ = table_args
 
     plan_ID = Column(Integer, primary_key=True)
     train_at = Column(DateTime)
@@ -185,6 +204,7 @@ class TrainingPlan(Base):
 
 class TrainingRecord(Base):
     __tablename__ = 'training_record'
+    __table_args__ = table_args
 
     record_ID = Column(Integer, primary_key=True)
     train_at = Column(DateTime)
@@ -196,9 +216,11 @@ class TrainingRecord(Base):
 
 class User(Base):
     __tablename__ = 'users'
+    __table_args__ = table_args
 
     username = Column(String(20), primary_key=True)
-    password = Column(BINARY(128), nullable=False)
+    #password = Column(BINARY(128), nullable=False)
+    password = Column(BINARY(60), nullable=False)
     ID = Column(ForeignKey('member.ID', ondelete='CASCADE'), index=True)
     email = Column(String(50), nullable=False, unique=True)
 

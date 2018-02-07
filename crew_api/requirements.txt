@@ -1,7 +1,10 @@
 aniso8601==2.0.0
+bcrypt==3.1.4
+cffi==1.11.4
 click==6.7
--e git+https://github.com/326623/crew-system@3537ed9596200402d6af46ba0d5df01dcdc3b454#egg=crew_api&subdirectory=crew_api
+-e git+https://github.com/326623/crew-system@6502b1337059deb01f19eaf5630b5382ee9d2a16#egg=crew_api&subdirectory=crew_api
 Flask==0.12.2
+Flask-Bcrypt==0.7.1
 Flask-RESTful==0.3.6
 flask-restplus==0.10.1
 Flask-SQLAlchemy==2.3.2
@@ -11,6 +14,7 @@ itsdangerous==0.24
 Jinja2==2.10
 jsonschema==2.6.0
 MarkupSafe==1.0
+pycparser==2.18
 PyMySQL==0.8.0
 pytz==2017.3
 six==1.11.0
