@@ -3,8 +3,6 @@ from crew_api import app, bcrypt, User, Member, db
 from crew_api.config import TestConfig
 
 import unittest
-#import flask_testing
-
 class BaseTestCase(TestCase):
     """A base test case."""
 
@@ -13,10 +11,7 @@ class BaseTestCase(TestCase):
         return app
 
     def setUp(self):
-        print('creating all tables')
-        from crew_api.models import table_args as test_db
-        print(test_db)
-        print(db)
+        print('\ncreating all tables')
         db.create_all()
         db.session.add(Member(name='admin', ID='1996', job='couch'))
         db.session.commit()

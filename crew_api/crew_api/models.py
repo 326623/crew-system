@@ -10,16 +10,14 @@ from sqlalchemy import BINARY, Column, Date, DateTime, ForeignKey, ForeignKeyCon
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql.enumerated import ENUM
 from sqlalchemy.ext.declarative import declarative_base
-from crew_api.main import db
+#from crew_api.main import db
+from crew_api import db
 
 # Base = declarative_base()
 # metadata = Base.metadata
-table_args = {'mysql_engine': 'InnoDB'}
-if 'test' in str(db.engine):
-     table_args = {'mysql_engine': 'MEMORY'}
-
-print(db.engine)
-print(table_args)
+#table_args = {'mysql_engine': 'InnoDB'}
+#if 'test' in str(db.engine):
+table_args = {'mysql_engine': 'MEMORY'}
 
 Base = db.Model
 metadata = Base.metadata
@@ -93,7 +91,9 @@ class Member(Base):
 t_paid_by = Table(
     'paid_by', metadata,
     Column('ID', ForeignKey('member.ID', ondelete='CASCADE'), primary_key=True, nullable=False),
-    Column('fee_ID', ForeignKey('fee_log.fee_ID'), primary_key=True, nullable=False, index=True)
+     Column('fee_ID', ForeignKey('fee_log.fee_ID'), primary_key=True, nullable=False, index=True),
+     #__table_args__ = table_args
+     mysql_engine = 'MEMORY'
 )
 
 
@@ -101,16 +101,17 @@ t_paid_by = Table(
 t_record_in_plan = Table(
     'record_in_plan', metadata,
     Column('plan_ID', ForeignKey('training_plan.plan_ID'), primary_key=True, nullable=False),
-    Column('record_ID', ForeignKey('training_record.record_ID'), primary_key=True, nullable=False, index=True)
+     Column('record_ID', ForeignKey('training_record.record_ID'), primary_key=True, nullable=False, index=True),
+     #__table_args__ = table_args
+     mysql_engine = 'MEMORY'
 )
 
 
 class RequirementInPlan(Base):
     __tablename__ = 'requirement_in_plan'
-    __table_args__ = table_args
     __table_args__ = (
         ForeignKeyConstraint(['item_ID', 'attr_ID'], ['attr_in_item.item_ID', 'attr_in_item.attr_ID']),
-        Index('item_ID', 'item_ID', 'attr_ID')
+         Index('item_ID', 'item_ID', 'attr_ID'), table_args
     )
 
     plan_ID = Column(ForeignKey('training_plan.plan_ID'), primary_key=True, nullable=False)
@@ -138,9 +139,9 @@ class Schedule(Base):
 t_schedule_maker = Table(
     'schedule_maker', metadata,
     Column('event_ID', ForeignKey('schedule.event_ID'), primary_key=True, nullable=False),
-    Column('ID', ForeignKey('member.ID', ondelete='CASCADE'), primary_key=True, nullable=False, index=True)
+     Column('ID', ForeignKey('member.ID', ondelete='CASCADE'), primary_key=True, nullable=False, index=True),
+     mysql_engine='MEMORY'
 )
-
 
 class Ship(Base):
     __tablename__ = 'ship'
@@ -163,10 +164,9 @@ class ShipTypeTable(Base):
 
 class StatusInRecord(Base):
     __tablename__ = 'status_in_record'
-    __table_args__ = table_args
     __table_args__ = (
         ForeignKeyConstraint(['item_ID', 'attr_ID'], ['attr_in_item.item_ID', 'attr_in_item.attr_ID']),
-        Index('item_ID', 'item_ID', 'attr_ID')
+         Index('item_ID', 'item_ID', 'attr_ID'), table_args
     )
 
     record_ID = Column(ForeignKey('training_record.record_ID'), primary_key=True, nullable=False)

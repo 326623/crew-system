@@ -2,7 +2,6 @@ from crew_api.models import metadata, User, AttrInItem, FeeLog, ItemAttribute, M
 from crew_api.tests.base import BaseTestCase, db, User, bcrypt
 from flask import json
 import unittest
-print(db)
 
 class FlaskTestCase(BaseTestCase):
     """ Calling self.client => flask.testing.FlaskClient """
@@ -23,7 +22,7 @@ class FlaskTestCase(BaseTestCase):
         db.session.add(User(username='admin', password=bcrypt.generate_password_hash('admin'), ID='1996', email = 'hello@happygirlzt.com'))
         db.session.commit()
         pw_hash=db.session.query(User).filter(User.username=='admin').first().password
-        print(bcrypt.check_password_hash(pw_hash, 'admin'))
+        #print(bcrypt.check_password_hash(pw_hash, 'admin'))
 
 if __name__ == '__main__':
     unittest.main()
