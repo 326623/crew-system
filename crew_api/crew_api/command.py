@@ -3,6 +3,39 @@ import unittest
 from crew_api import app, db, bcrypt
 from crew_api.models import *
 
+def call_insert_data():
+    conn=db.engine.connect()
+    """ to be called to insert data without shackles of decorators """
+    from crew_api.database_data import insert_member, insert_users, insert_training_items, insert_attr_in_item, \
+        insert_training_plan, insert_requirement_in_plan
+    db.session.add_all(insert_member)
+    db.session.commit()
+
+    db.session.add_all(insert_users)
+    db.session.commit()
+
+    db.session.add_all(insert_training_items)
+    db.session.commit()
+
+    #db.session.add_all()
+    conn.execute(AttrInItem.__table__.insert(), insert_attr_in_item)
+    db.session.commit()
+
+    conn.execute(TrainingPlan.__table__.insert(), insert_training_plan)
+    conn.execute(RequirementInPlan.__table__.insert(), insert_requirement_in_plan)
+
+    #db.session.add_all([])
+    click.echo('data inserted')
+
+def call_init_db():
+    click.echo('create all tables')
+    db.create_all()
+    click.echo('all tables created')
+
+def call_drop_db():
+    click.echo('drop all tables')
+    db.drop_all()
+    click.echo('all tables dropped')
 
 @app.cli.command()
 def test():
@@ -13,31 +46,23 @@ def test():
 @app.cli.command()
 def init_db():
     """ Initialize the Database, after drop_db """
-    db.create_all()
+    call_init_db()
 
 @app.cli.command()
 def drop_db():
     """ Clean up database """
-    db.drop_all()
+    call_drop_db()
 
 @app.cli.command()
 def insert_data():
     """ Insert template data """
-    # db.session.add_all([
-    #     User
-    # ])
+    call_insert_data()
 
-    click.echo(db)
-    db.session.add_all(
-        [Member(name='于H', ID='0', training_level='old bird'),
-        Member(name='郭D胜', ID='1', training_level='old bird'),
-        Member(name='X德昊', ID='2', training_level='old bird'),
-        Member(name='S炜焜', ID='3', training_level='old bird'),
-        Member(name='happygirlzt', ID='520', training_level='old bird'),
-        Member(name='normal', ID='1997', training_level='newbie')]
-    )
-    db.session.commit()
+@app.cli.command()
+def rebuild():
+    """ rebuild database with premade values"""
+    call_drop_db()
+    call_init_db()
+    call_insert_data()
 
-    #db.session.add_all([])
-    click.echo('data inserted')
-#    click.echo('Not implemented')
+
