@@ -6,145 +6,55 @@
   http://flask.pocoo.org/
 
 * Schedule
-  1. Adding some documentation of this project.
-  2. Working more on exception handling.
-  3. Dig more into wtf_components and sqlalchemy.
-  4. Adding Flask-testing
-  5. Find a license.
-* To join dev
-  Note: Well, I am currently on linux, so the following steps are only for linux. Reach out to me if there were any problem.
+  
+** backend
+   1. WeiZhou
+      负责编写member, training_record模块
+      crew_api.API.apis.member, crew_api.API.apis.training_record
+   2. QP
+      负责编写数据库模块, 测试模块还有api中的user和training_plan模块
+      crew_api.models, crew_api.tests.*, crew_api.API.apis.user, crew_api.API.apis.training_plan
+   3. ZY
+      None until <2018-02-13 二>
 
-  Please have *python3* and *mysql* installed
+** frontend
+   None planned until <2018-02-13 二>
+* To join dev(尚未在windows或者macOS下进行测试.)
+  我已经把环境包装好了,只需要安装[[https://www.vagrantup.com/][vagrant]]以及[[https://www.virtualbox.org/wiki/Downloads][virtualbox]],注意安装的时候要看清楚vagrant的版本是否兼容virtualbox. 如果ubuntu内核版本是4.13那么推荐直接从官网下载vagrant和virtualbox. 内核版本较低则可以(4.10, 4.4)直接apt-get install. 
+** after installing vagrant and virtualbox
+   打开命令行到repository下找到 *Vagrantfile*, 输入 *vagrant up* 整个环境就会自动配置. 大概时间根据网速,5~10分钟不等.
 
-  1. Pay attention to the *requirement.txt* under *\crew-system\crewmen* directory.
+   配置完成之后使用 *vagrant ssh* 登录虚拟机. 虚拟机已经配置好了,在外面修改repo就会自动同步(shared)
 
-     Search documentation for *virtualenv*. Using virtualenv to create a clean development environment like the following steps:
+   在登录的 *vagrant* 虚拟机里面输入
 
-     This create a virtual environment under the directory *crew-app* with python3 instead of python2, if you have python2 installed.
-     #+BEGIN_EXAMPLE
-     virtualenv -p /usr/bin/python3 crew-app
-     #+END_EXAMPLE
+   #+BEGIN_EXAMPLE
+   flask
+   #+END_EXAMPLE
 
-     activate the virtual environment
-     #+BEGIN_EXAMPLE
-     source ~/crew-app/bin/activate
-     #+END_EXAMPLE
+   可以查看flask已有的命令,下面是已经有的命令
+   #+BEGIN_EXAMPLE
+   Options:
+  --version  Show the flask version
+  --help     Show this message and exit.
 
-     Install the required python packages to get started. After installation, you are ready to go.
-     #+BEGIN_SRC 
-     pip install -r requirement.txt
-     #+END_SRC
+  Commands:
+    drop_db      Clean up database
+    init_db      Initialize the Database, after drop_db
+    insert_data  Insert template data
+    rebuild      rebuild database with premade values
+    run          Runs a development server.
+    shell        Runs a shell in the app context.
+    test         Runs the testing
+   #+END_EXAMPLE
+   
+   运行 *flask rebuild* 重建数据库, 特别注意这个操作先删除数据库的表再建表,最后插入一些测试用的数据.在一开始的时候数据库是空的,要先执行这个命令才能正常运行(对于不同的磁盘会有不同的速度)
 
-  2. Next on, environment variable
+   *flask test* 是一些写好的单元测试
 
-     Two environment need to be set in order to run the flask application.
+   *flask run --host=0.0.0.0* 会运行这个网页应用,然后打开浏览器输入url *localhost:5000*就可以看到现在的网页应用.
 
-     1. *FLASK_APP*
-
-        Maybe a good idea to put it in your *.bashrc* or *.zshrc* if you are using zsh. 
-        
-        Note: These two files are the configuration file for command line, basically it works by "when you launch the bash or zsh it loads the .bashrc or .zshrc first".
-        
-        It basically is telling flask to look for the location of the app. Seek [[http://flask.pocoo.org/][doc]] for more detail.
-        #+BEGIN_EXAMPLE
-        export FLASK_APP='PATH-TO/crewmen.py'
-        #+END_EXAMPLE
-
-     2. *FLASK_DEBUG*, well this is optional, but great helper during development
-        Setting it to true
-        #+BEGIN_EXAMPLE
-        export FLASK_DEBUG=1
-        #+END_EXAMPLE
-
-  3. Just before launching the app
-     Need to load the database schema(*new-crew-system.sql*) into database, and the *test-data.sql* as the starting data. It has the login password and user.
-
-     #+BEGIN_EXAMPLE
-     mysql -uroot -p < crew-user.sql
-     #+END_EXAMPLE
-
-     Loading the mysql user file into database
-
-     #+BEGIN_EXAMPLE
-     mysql -uroot -p < new-crew-schema.sql
-     #+END_EXAMPLE
-
-     Loading the crew schema
-
-     #+BEGIN_EXAMPLE
-     mysql -uroot -p < test-data.sql
-     #+END_EXAMPLE
-
-     Loading the test data into the database
-
-  4. Now, launch the application to see what we have got
-      
-     running the command
-     #+BEGIN_EXAMPLE
-     python -m flask run
-     #+END_EXAMPLE
-
-
-* Structure
-  Using Blueprint from flask, I am able to divide the project.
-
-  I am currently using *new-crew-system.sql* as the database schema.
-  Reading the commented parts
-
-    #+BEGIN_EXAMPLE
-    .
-    ├── config.py                  # important config file
-    ├── crewmen.py                 # main file, backbone of the project
-    ├── database
-    │   ├── crew-user.sql
-    │   ├── new-crew-schema.sql    # base of the project, database schema
-    │   └── test-data.sql          # testing data
-    ├── models.py                  # important orm(object relation mapping) model file
-    ├── project                    # holding module for the project
-    │   ├── fee                    # fee module
-    │   │   ├── core.py            # core holds the base functions
-    │   │   ├── form.py            # form holds the class to deal with form
-    │   │   ├── __init__.py        # for the intepreter to recognize as a module
-    │   │   └── templates
-    │   │       ├── add_fee_log.html
-    │   │       └── show_fee_log.html
-    │   ├── __init__.py
-    │   ├── member                 # member module
-    │   │   ├── core.py
-    │   │   ├── form.py
-    │   │   ├── __init__.py
-    │   │   ├── __pycache__
-    │   │   └── templates
-    │   │       ├── add_member.html
-    │   │       ├── allmember_profile.html
-    │   │       ├── delete_member.html
-    │   │       └── member_profile.html
-    │   ├── training               # training module
-    │   │   ├── core.py
-    │   │   ├── form.py
-    │   │   ├── __init__.py
-    │   │   └── templates
-    │   │       ├── add_item.html
-    │   │       ├── add_plan.html
-    │   │       ├── add_plan_item.html
-    │   │       ├── show_item.html
-    │   │       └── training_plan.html
-    │   └── user
-    │       ├── core.py
-    │       ├── form.py
-    │       ├── __init__.py
-    │       └── templates
-    │           ├── login.html
-    │           ├── password_update.html
-    │           └── register.html
-    ├── requirements.txt                           # dependency package
-    └── templates                                  # htmls
-        ├── base.html                              # base of htmls, backbone
-        ├── home.html
-        └── welcome.html
-        #+END_EXAMPLE
-
-
+   有什么不懂可以直接问.
 
 * log
 

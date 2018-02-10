@@ -1,5 +1,6 @@
 ROUTE=/vagrant
-DIR=$ROUTE/crew-system
+#DIR=$ROUTE/crew-system
+DIR=$ROUTE
 PIP_SETUP=$DIR/crew_api
 DB=$PIP_SETUP/database
 
