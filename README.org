@@ -11,6 +11,9 @@
    1. WeiZhou
       负责编写member, training_record模块
       crew_api.API.apis.member, crew_api.API.apis.training_record
+
+      - 成员模块
+        
    2. QP
       负责编写数据库模块, 测试模块还有api中的user和training_plan模块
       crew_api.models, crew_api.tests.*, crew_api.API.apis.user, crew_api.API.apis.training_plan
@@ -55,6 +58,9 @@
    *flask run --host=0.0.0.0* 会运行这个网页应用,然后打开浏览器输入url *localhost:5000*就可以看到现在的网页应用.
 
    有什么不懂可以直接问.
+
+* DB-ER diagram
+  [[file:doc/db-ER.png][ER图]]
 
 * log
 
