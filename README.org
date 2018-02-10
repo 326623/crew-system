@@ -8,26 +8,63 @@
 * Schedule
   
 ** backend
+   如有什么需要, 随时可以让QP修改数据库
    1. WeiZhou
+
       负责编写member, training_record模块
       crew_api.API.apis.member, crew_api.API.apis.training_record
 
-      - 成员模块
+      - 成员模块功能(以下仅仅是一个kick-starter, 示例)
+        Query(JSON):
         
-   2. QP
+        1. 根据某个name/ID/sex/birth/height/ etc... 寻找对应的信息(前端提供需要什么, 比如ID=1, 返回整个个体的信息)
+           
+        2. 返回所有成员的信息
+        
+        Create:
+
+        1. 接受新成员信息写入数据库, 返回True
+
+        Update:
+
+        1. 接受某个ID, 改变相应的Name, sex. etc., 返回True
+
+        Delete:
+
+        1. 接受某个ID, 删除相应实例, 返回True
+
+
+   1. QP
+
       负责编写数据库模块, 测试模块还有api中的user和training_plan模块
       crew_api.models, crew_api.tests.*, crew_api.API.apis.user, crew_api.API.apis.training_plan
-   3. ZY
+
+      单元测试覆盖:　成员、训练记录、训练计划、用户
+
+      - 用户：
+
+        1. 用户登录密码校对成功，返回相应的ID, 权限,状态Success
+
+        2. 用户注册的信息录入数据库，返回True
+
+        3. 注销用户
+
+   2. ZY
+
       None until <2018-02-13 二>
 
 ** frontend
    None planned until <2018-02-13 二>
 * To join dev(尚未在windows或者macOS下进行测试.)
-  我已经把环境包装好了,只需要安装[[https://www.vagrantup.com/][vagrant]]以及[[https://www.virtualbox.org/wiki/Downloads][virtualbox]],注意安装的时候要看清楚vagrant的版本是否兼容virtualbox. 如果ubuntu内核版本是4.13那么推荐直接从官网下载vagrant和virtualbox. 内核版本较低则可以(4.10, 4.4)直接apt-get install. 
+  我已经把环境包装好了, 只需要安装[[https://www.vagrantup.com/][vagrant]]以及[[https://www.virtualbox.org/wiki/Downloads][virtualbox]], 注意安装的时候要看清楚vagrant的版本是否兼容virtualbox.
+
+  -- 如果ubuntu内核版本是4.13那么推荐直接从官网下载vagrant和virtualbox. 内核版本较低则可以(4.10, 4.4)直接apt-get install. 
 ** after installing vagrant and virtualbox
    打开命令行到repository下找到 *Vagrantfile*, 输入 *vagrant up* 整个环境就会自动配置. 大概时间根据网速,5~10分钟不等.
 
-   配置完成之后使用 *vagrant ssh* 登录虚拟机. 虚拟机已经配置好了,在外面修改repo就会自动同步(shared)
+   配置完成之后使用 *vagrant ssh* 登录虚拟机, 虚拟机中 */vagrant* 路径中的文件与本地的repository是共享的
+
+   在外面修改repo就会自动同步(shared)
 
    在登录的 *vagrant* 虚拟机里面输入
 
@@ -51,11 +88,23 @@
     test         Runs the testing
    #+END_EXAMPLE
    
-   运行 *flask rebuild* 重建数据库, 特别注意这个操作先删除数据库的表再建表,最后插入一些测试用的数据.在一开始的时候数据库是空的,要先执行这个命令才能正常运行(对于不同的磁盘会有不同的速度)
+   运行 *flask rebuild* 重建数据库, 特别注意这个操作先删除数据库的表再建表,最后插入一些测试用的数据.
 
-   *flask test* 是一些写好的单元测试
+   在一开始的时候数据库是空的,要先执行这个命令才能正常运行(对于不同的磁盘会有不同的速度)
 
-   *flask run --host=0.0.0.0* 会运行这个网页应用,然后打开浏览器输入url *localhost:5000*就可以看到现在的网页应用.
+   #+BEGIN_EXAMPLE
+   flask test
+   #+END_EXAMPLE
+   是一些写好的单元测试
+   
+   #+BEGIN_EXAMPLE
+   flask run --host=0.0.0.0
+   #+END_EXAMPLE
+   会运行这个网页应用,然后打开浏览器输入url *localhost:5000*就可以看到现在的网页应用.
+
+   后面的 *--host* 的就是让这个flask让机器监听来自外部的端口, 只有这样外面的机器(host)才能访问到虚拟机的网站
+
+   打开url */localhost:5000/api/v1* 会有这个项目的相关文档。
 
    有什么不懂可以直接问.
 
