@@ -1,5 +1,6 @@
 from flask_testing import TestCase
-from crew_api import app, bcrypt, User, Member, db
+from crew_api import app, bcrypt
+from crew_api.models import User, Member, db
 from crew_api.config import TestConfig
 
 import unittest

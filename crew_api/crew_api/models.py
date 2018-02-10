@@ -15,9 +15,9 @@ from crew_api import db
 
 # Base = declarative_base()
 # metadata = Base.metadata
-#table_args = {'mysql_engine': 'InnoDB'}
+table_args = {'mysql_engine': 'InnoDB'}
 #if 'test' in str(db.engine):
-table_args = {'mysql_engine': 'MEMORY'}
+#table_args = {'mysql_engine': 'MEMORY'}
 
 Base = db.Model
 metadata = Base.metadata

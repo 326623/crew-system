@@ -29,11 +29,11 @@ hashing= lambda x : bcrypt.generate_password_hash(x)
 
 # this is the slow part
 insert_users=[
-    User(username='yuH', password=hashing('hello-world'), ID='0', email='123@happygirlzt.com'),
-    User(username='guoD', password=hashing('hello-world'), ID='1', email='124@happygirlzt.com'),
-    User(username='Xde', password=hashing('hello-world'), ID='2', email='125@happygirlzt.com'),
-    User(username='Swei', password=hashing('hello-world'), ID='3', email='126@happygirlzt.com'),
-    User(username='Huze', password=hashing('hello-world'), ID='4', email='128@happygirlzt.com'),
+    User(username='yuH', password=hashing('hello-world'), ID='1', email='123@happygirlzt.com'),
+    User(username='guoD', password=hashing('hello-world'), ID='2', email='124@happygirlzt.com'),
+    User(username='Xde', password=hashing('hello-world'), ID='3', email='125@happygirlzt.com'),
+    User(username='Swei', password=hashing('hello-world'), ID='4', email='126@happygirlzt.com'),
+    User(username='Huze', password=hashing('hello-world'), ID='5', email='128@happygirlzt.com'),
     User(username='admin', password=hashing('admin'), ID='1996', email='122@happygirlzt.com'),
     User(username='normal', password=hashing('normal'), ID='1997', email='11@happygirlzt.com')
 ]
@@ -52,6 +52,18 @@ insert_training_items=[
 ###################
 ### new fashion ###
 ###################
+
+x=[
+    ('1', '重量'),
+    ('2', '距离'),
+    ('3', '时间'),
+    ('4', '次数'),
+    ('5', '组数'),
+    ('6', '桨频'),
+    ('7', '风阻')
+]
+
+insert_item_attr=[{'attr_ID': x1, 'attr_name': x2} for x1, x2 in x]
 
 x = [
     (1, 1), (1, 3), (1, 4), (1, 5),
