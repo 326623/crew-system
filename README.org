@@ -100,7 +100,7 @@
    #+BEGIN_EXAMPLE
    flask run --host=0.0.0.0
    #+END_EXAMPLE
-   会运行这个网页应用,然后打开浏览器输入url *localhost:5000*就可以看到现在的网页应用.
+   会运行这个网页应用,然后打开浏览器输入url *localhost:5000* 就可以看到现在的网页应用.
 
    后面的 *--host* 的就是让这个flask让机器监听来自外部的端口, 只有这样外面的机器(host)才能访问到虚拟机的网站
 
