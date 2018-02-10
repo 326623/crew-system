@@ -47,7 +47,7 @@
         
         It basically is telling flask to look for the location of the app. Seek [[http://flask.pocoo.org/][doc]] for more detail.
         #+BEGIN_EXAMPLE
-        export FLASK_APP='~/my-repo/crew-system/crewmen/crewmen.py'
+        export FLASK_APP='PATH-TO/crewmen.py'
         #+END_EXAMPLE
 
      2. *FLASK_DEBUG*, well this is optional, but great helper during development
@@ -58,6 +58,24 @@
 
   3. Just before launching the app
      Need to load the database schema(*new-crew-system.sql*) into database, and the *test-data.sql* as the starting data. It has the login password and user.
+
+     #+BEGIN_EXAMPLE
+     mysql -uroot -p < crew-user.sql
+     #+END_EXAMPLE
+
+     Loading the mysql user file into database
+
+     #+BEGIN_EXAMPLE
+     mysql -uroot -p < new-crew-schema.sql
+     #+END_EXAMPLE
+
+     Loading the crew schema
+
+     #+BEGIN_EXAMPLE
+     mysql -uroot -p < test-data.sql
+     #+END_EXAMPLE
+
+     Loading the test data into the database
 
   4. Now, launch the application to see what we have got
       
@@ -75,84 +93,58 @@
 
     #+BEGIN_EXAMPLE
     .
-  ├── command                    #        useless
-  ├── config.py                  # important config file
-  ├── crew-management.sql        #        useless
-  ├── crewmen.py                 # main file, backbone of the project
-  ├── crew-user.sql              #        useless
-  ├── init_crew.py               #        useless
-  ├── models.py                  # important orm(object relation mapping) model file
-  ├── new-crew-schema.sql        # base of the project, database schema
-  ├── project                    # holding module for the project
-  │   ├── fee                    # fee module
-  │   │   ├── core.py            # core holds the base functions
-  │   │   ├── form.py            # form holds the class to deal with form
-  │   │   ├── __init__.py        # for the intepreter to recognize as a module
-  │   │   ├──  *Minibuf-1*
-  │   │   ├── __pycache__        #         useless, consider getting rid of it
-  │   │   │   ├── core.cpython-35.pyc
-  │   │   │   ├── form.cpython-35.pyc
-  │   │   │   └── __init__.cpython-35.pyc
-  │   │   └── templates          # html
-  │   │       ├── add_fee_log.html
-  │   │       └── show_fee_log.html
-  │   ├── __init__.py
-  │   ├── member                 # member module
-  │   │   ├── core.py
-  │   │   ├── form.py
-  │   │   ├── __init__.py
-  │   │   ├── __pycache__
-  │   │   │   ├── core.cpython-35.pyc
-  │   │   │   ├── form.cpython-35.pyc
-  │   │   │   └── __init__.cpython-35.pyc
-  │   │   └── templates
-  │   │       ├── add_member.html
-  │   │       ├── allmember_profile.html
-  │   │       ├── delete_member.html
-  │   │       └── member_profile.html
-  │   ├── __pycache__
-  │   │   └── __init__.cpython-35.pyc
-  │   ├── training               # training module
-  │   │   ├── core.py
-  │   │   ├── form.py
-  │   │   ├── __init__.py
-  │   │   ├── __pycache__
-  │   │   │   ├── core.cpython-35.pyc
-  │   │   │   ├── form.cpython-35.pyc
-  │   │   │   └── __init__.cpython-35.pyc
-  │   │   └── templates
-  │   │       ├── add_item.html
-  │   │       ├── add_plan.html
-  │   │       ├── show_item.html
-  │   │       └── training_plan.html
-  │   └── user                   # user module
-  │       ├── core.py
-  │       ├── form.py
-  │       ├── __init__.py
-  │       ├── __pycache__
-  │       │   ├── core.cpython-35.pyc
-  │       │   ├── form.cpython-35.pyc
-  │       │   ├── __init__.cpython-35.pyc
-  │       │   ├── login.cpython-35.pyc
-  │       │   └── views.cpython-35.pyc
-  │       └── templates
-  │           ├── login.html
-  │           ├── password_update.html
-  │           └── register.html
-  ├── __pycache__
-  │   ├── config.cpython-35.pyc
-  │   ├── crewmen.cpython-35.pyc
-  │   ├── init_crew.cpython-35.pyc
-  │   └── models.cpython-35.pyc
-  ├── requirements.txt            # dependency package
-  ├── templates                   # htmls
-  │   ├── base.html               # base of htmls, backbone
-  │   ├── home.html
-  │   └── welcome.html
-  ├── test-data.sql               # testing data
-  └── test.py
+    ├── config.py                  # important config file
+    ├── crewmen.py                 # main file, backbone of the project
+    ├── database
+    │   ├── crew-user.sql
+    │   ├── new-crew-schema.sql    # base of the project, database schema
+    │   └── test-data.sql          # testing data
+    ├── models.py                  # important orm(object relation mapping) model file
+    ├── project                    # holding module for the project
+    │   ├── fee                    # fee module
+    │   │   ├── core.py            # core holds the base functions
+    │   │   ├── form.py            # form holds the class to deal with form
+    │   │   ├── __init__.py        # for the intepreter to recognize as a module
+    │   │   └── templates
+    │   │       ├── add_fee_log.html
+    │   │       └── show_fee_log.html
+    │   ├── __init__.py
+    │   ├── member                 # member module
+    │   │   ├── core.py
+    │   │   ├── form.py
+    │   │   ├── __init__.py
+    │   │   ├── __pycache__
+    │   │   └── templates
+    │   │       ├── add_member.html
+    │   │       ├── allmember_profile.html
+    │   │       ├── delete_member.html
+    │   │       └── member_profile.html
+    │   ├── training               # training module
+    │   │   ├── core.py
+    │   │   ├── form.py
+    │   │   ├── __init__.py
+    │   │   └── templates
+    │   │       ├── add_item.html
+    │   │       ├── add_plan.html
+    │   │       ├── add_plan_item.html
+    │   │       ├── show_item.html
+    │   │       └── training_plan.html
+    │   └── user
+    │       ├── core.py
+    │       ├── form.py
+    │       ├── __init__.py
+    │       └── templates
+    │           ├── login.html
+    │           ├── password_update.html
+    │           └── register.html
+    ├── requirements.txt                           # dependency package
+    └── templates                                  # htmls
+        ├── base.html                              # base of htmls, backbone
+        ├── home.html
+        └── welcome.html
+        #+END_EXAMPLE
 
-    #+END_EXAMPLE
+
 
 * log
 
