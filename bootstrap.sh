@@ -25,6 +25,7 @@ pip3 install -e $PIP_SETUP
 echo 'export FLASK_APP=crew_api' >> /home/vagrant/.bashrc
 echo 'export FLASK_DEBUG=1' >> /home/vagrant/.bashrc
 echo 'export LC_ALL=zh_CN.UTF-8' >> /home/vagrant/.bashrc
+echo 'export HOST=0.0.0.0' >> /home/vagrant/.bashrc
 
 # moving mysql test database for testing acceleration
 service mysql stop
