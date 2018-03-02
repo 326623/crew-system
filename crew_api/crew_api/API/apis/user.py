@@ -11,7 +11,9 @@ user_info = api.model('User', {
     'email': fields.String
 })
 
-@api.doc(params={'id': 'ID number'})
+# @api.doc(params={'feature': 'the content of feture',
+#                  'type': 'the type of feature'})
+@api.doc(params={'id': 'id number'})
 class user_api(Resource):
     @api.marshal_with(user_info)
     def get(self, id):
