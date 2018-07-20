@@ -6,4 +6,4 @@
   http://flask.pocoo.org/
 
 * Schedule
-  Decrypted project.
+  No further development.
